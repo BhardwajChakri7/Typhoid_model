@@ -98,13 +98,35 @@ with col3:
 with col4:
     Weakness = st.selectbox('Weakness', options=['No', 'Yes'], index=0)
 
+# Encode categorical inputs
+def encode_input(value):
+    if value == 'Yes':
+        return 1
+    elif value == 'No':
+        return 0
+    elif value == 'Mild':
+        return 0.5  # Arbitrary value for Mild cough
+    elif value == 'Severe':
+        return 2  # Arbitrary value for Severe cough
+    return value
+
 # code for Prediction
 Typhoid_diagnosis = ''
 
 # creating a button for Prediction
 if st.button('Typhoid Disease Test Button'):
     try:
-        Typhoid_disease_prediction = Typhoid_project.predict([[Fever, Cough, Abdominal_Pain, Nausea, Vomiting, Body_Temperature_High, Diarrhea, Loss_of_Appetite, Weakness]])
+        Typhoid_disease_prediction = Typhoid_project.predict([[
+            Fever,
+            encode_input(Cough),
+            encode_input(Abdominal_Pain),
+            encode_input(Nausea),
+            encode_input(Vomiting),
+            Body_Temperature_High,
+            encode_input(Diarrhea),
+            encode_input(Loss_of_Appetite),
+            encode_input(Weakness)
+        ]])
     except ValueError as e:
         st.error(f"Prediction error: {str(e)}")
     
