@@ -22,19 +22,19 @@ st.markdown(
         background: rgba(0, 0, 0, 0);
     }
     .block-container {
-        background: rgba(0, 0, 0, 0.5);
-        padding: 20px;
+        background: rgba(0, 0, 0, 0.6);
+        padding: 30px;
         border-radius: 15px;
         max-width: 800px;
         margin: auto;
         backdrop-filter: blur(10px);
-        box-shadow: 0px 6px 24px rgba(0, 0, 0, 0.8);
+        box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.7);
     }
     .stButton>button {
         background-color: #FF6347;
         color: white;
         font-size: 18px;
-        padding: 10px 24px;
+        padding: 12px 30px;
         border-radius: 10px;
         border: none;
         transition: 0.3s;
@@ -47,18 +47,19 @@ st.markdown(
     h1, h2, h3, h4, h5, h6, p {
         color: white;
         text-align: center;
+        margin-bottom: 20px;
     }
     input[type="text"], input[type="number"], select {
         background-color: white !important;
         color: black !important;
         border: 1px solid #FF6347;
         border-radius: 5px;
-        padding: 10px;
+        padding: 12px;
         width: 100%;  /* Make the input box full width */
         box-sizing: border-box;  /* Include padding in width */
     }
     select {
-        height: 40px; /* Adjust height for consistency */
+        height: 45px; /* Adjust height for consistency */
         -webkit-appearance: none; /* Remove default styling */
         -moz-appearance: none; /* Remove default styling */
         appearance: none; /* Remove default styling */
@@ -71,31 +72,31 @@ st.markdown(
 col1, col2, col3, col4, col5 = st.columns(5)
 
 with col1:
-    Fever = st.text_input('Fever')
+    Fever = st.text_input('Fever', placeholder='e.g. 102°F')
     
 with col2:
-    Cough = st.text_input('Cough')
+    Cough = st.text_input('Cough', placeholder='e.g. Mild/Severe')
 
 with col3:
-    Abdominal_Pain = st.text_input('Abdominal Pain')
+    Abdominal_Pain = st.text_input('Abdominal Pain', placeholder='e.g. Yes/No')
     
 with col4:
-    Nausea = st.text_input('Nausea')
+    Nausea = st.text_input('Nausea', placeholder='e.g. Yes/No')
     
 with col5:
-    Vomiting = st.text_input('Vomiting')
+    Vomiting = st.text_input('Vomiting', placeholder='e.g. Yes/No')
 
 with col1:
-    Body_Temperature_High = st.text_input('Body Temperature High')
+    Body_Temperature_High = st.text_input('Body Temperature High', placeholder='e.g. 101°F')
     
 with col2:
-    Diarrhea = st.text_input('Diarrhea')
+    Diarrhea = st.text_input('Diarrhea', placeholder='e.g. Yes/No')
 
 with col3:
-    Loss_of_Appetite = st.text_input('Loss of Appetite')
+    Loss_of_Appetite = st.text_input('Loss of Appetite', placeholder='e.g. Yes/No')
 
 with col4:
-    Weakness = st.text_input('Weakness')
+    Weakness = st.text_input('Weakness', placeholder='e.g. Yes/No')
 
 # code for Prediction
 Typhoid_diagnosis = ''
