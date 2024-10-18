@@ -4,9 +4,6 @@ import streamlit as st
 # loading the saved models
 Typhoid_project = pickle.load(open('Typhoid_model.sav', 'rb'))
 
-# page title
-st.title('Typhoid Disease Prediction using ML')
-
 # Adding custom styles
 st.markdown(
     """
@@ -56,40 +53,51 @@ st.markdown(
         border: 1px solid #FF6347;
         border-radius: 5px;
         padding: 12px;
-        width: 100%;  /* Make the input box full width */
-        box-sizing: border-box;  /* Include padding in width */
+        width: 100%;
+        box-sizing: border-box;
     }
     select {
-        height: 45px; /* Adjust height for consistency */
-        -webkit-appearance: none; /* Remove default styling */
-        -moz-appearance: none; /* Remove default styling */
-        appearance: none; /* Remove default styling */
+        height: 45px;
+        appearance: none;
     }
     </style>
     """, unsafe_allow_html=True
 )
 
-# getting the input data from the user
+# Page title
+st.title('Typhoid Disease Prediction using ML')
+
+# Location input
+state = st.selectbox(
+    'Select your location (Indian State)', 
+    ['', 'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh',
+     'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka',
+     'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram',
+     'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu',
+     'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal']
+)
+
+# Input data collection
 col1, col2, col3, col4, col5 = st.columns(5)
 
 with col1:
     Fever = st.number_input('Fever (°F)', min_value=95, max_value=105, value=101, step=1)
-    
+
 with col2:
     Cough = st.selectbox('Cough', options=['No', 'Mild', 'Severe'], index=0)
 
 with col3:
     Abdominal_Pain = st.selectbox('Abdominal Pain', options=['No', 'Yes'], index=0)
-    
+
 with col4:
     Nausea = st.selectbox('Nausea', options=['No', 'Yes'], index=0)
-    
+
 with col5:
     Vomiting = st.selectbox('Vomiting', options=['No', 'Yes'], index=0)
 
 with col1:
     Body_Temperature_High = st.number_input('Body Temperature High (°F)', min_value=95, max_value=105, value=102, step=1)
-    
+
 with col2:
     Diarrhea = st.selectbox('Diarrhea', options=['No', 'Yes'], index=0)
 
@@ -106,34 +114,28 @@ def encode_input(value):
     elif value == 'No':
         return 0
     elif value == 'Mild':
-        return 0.5  # Arbitrary value for Mild cough
+        return 0.5
     elif value == 'Severe':
-        return 2  # Arbitrary value for Severe cough
+        return 2
     return value
 
-# code for Prediction
+# Prediction logic
 Typhoid_diagnosis = ''
 
-# creating a button for Prediction
+# Prediction button
 if st.button('Typhoid Disease Test Button'):
-    try:
-        Typhoid_disease_prediction = Typhoid_project.predict([[
-            Fever,
-            encode_input(Cough),
-            encode_input(Abdominal_Pain),
-            encode_input(Nausea),
-            encode_input(Vomiting),
-            Body_Temperature_High,
-            encode_input(Diarrhea),
-            encode_input(Loss_of_Appetite),
-            encode_input(Weakness)
-        ]])
-    except ValueError as e:
-        st.error(f"Prediction error: {str(e)}")
-    
-    if (Typhoid_disease_prediction[0] == 1):
-        Typhoid_diagnosis = 'The person is affected with Typhoid'
+    if state == '':
+        st.error("Please select your location.")
     else:
-        Typhoid_diagnosis = 'The person is not affected with Typhoid'
-    
+        try:
+            prediction = Typhoid_project.predict([[
+                Fever, encode_input(Cough), encode_input(Abdominal_Pain),
+                encode_input(Nausea), encode_input(Vomiting), Body_Temperature_High,
+                encode_input(Diarrhea), encode_input(Loss_of_Appetite), encode_input(Weakness)
+            ]])
+            Typhoid_diagnosis = 'The person is affected with Typhoid' if prediction[0] == 1 else 'The person is not affected with Typhoid'
+        except ValueError as e:
+            st.error(f"Prediction error: {str(e)}")
+
+# Display diagnosis result
 st.success(Typhoid_diagnosis)
