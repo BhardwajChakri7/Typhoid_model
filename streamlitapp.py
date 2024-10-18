@@ -1,40 +1,45 @@
 import pickle
 import streamlit as st
 
-# loading the saved models
-Typhoid_project = pickle.load(open('Typhoid_model.sav', 'rb'))
+# Load the saved model
+diabetes_model = pickle.load(open('diabete_model.sav', 'rb'))
 
-# Adding custom styles
-st.markdown(
-    """
-    <style>
+# Background styling
+page_bg_img = '''
+<style>
     [data-testid="stAppViewContainer"] {
-        background-image: url("https://raw.githubusercontent.com/SHAIK-RAIYAN-2022-CSE/malaria/main/Images-free-abstract-minimalist-wallpaper-HD.jpg");
+        background-image: url("https://github.com/SHAIK-RAIYAN-2022-CSE/malaria/blob/main/Images-free-abstract-minimalist-wallpaper-HD.jpg?raw=true");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        background-attachment: fixed;
     }
     [data-testid="stHeader"] {
-        background: rgba(0, 0, 0, 0);
+        background: rgba(0, 0, 0, 0); 
     }
     .block-container {
-        background: rgba(0, 0, 0, 0.6);
-        padding: 30px;
+        max-width: 700px;
+        margin: 50px auto;
+        padding: 25px;
         border: 2px solid #ccc;
         border-radius: 15px;
-        max-width: 800px;
-        margin: auto;
-        backdrop-filter: blur(10px);
-        box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.7);
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(12px);
+        box-shadow: 0px 6px 24px rgba(0, 0, 0, 0.8);
+    }
+    input {
+        background-color: white !important;
+        color: black !important;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        font-size: 16px;
     }
     .stButton>button {
         background-color: #FF6347;
         color: white;
         font-size: 18px;
-        padding: 12px 30px;
+        padding: 12px 28px;
         border-radius: 10px;
-        border: none;
         transition: 0.3s;
     }
     .stButton>button:hover {
@@ -43,29 +48,15 @@ st.markdown(
         border: 2px solid #FF6347;
     }
     h1, h2, h3, h4, h5, h6, p {
-        color: white;
+        color: white !important;
         text-align: center;
-        margin-bottom: 20px;
     }
-    input[type="text"], input[type="number"], select {
-        background-color: white !important;
-        color: black !important;
-        border: 1px solid #FF6347;
-        border-radius: 5px;
-        padding: 12px;
-        width: 100%;
-        box-sizing: border-box;
-    }
-    select {
-        height: 45px;
-        appearance: none;
-    }
-    </style>
-    """, unsafe_allow_html=True
-)
+</style>
+'''
+st.markdown(page_bg_img, unsafe_allow_html=True)
 
-# Page title
-st.title('Typhoid Disease Prediction using ML')
+# Title
+st.markdown("<h1>🔍 Diabetes Prediction using Machine Learning</h1>", unsafe_allow_html=True)
 
 # Location input
 state = st.selectbox(
@@ -77,65 +68,30 @@ state = st.selectbox(
      'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal']
 )
 
-# Input data collection
-col1, col2, col3, col4, col5 = st.columns(5)
+# Collect user input
+col1, col2 = st.columns(2)
 
 with col1:
-    Fever = st.number_input('Fever (°F)', min_value=95, max_value=105, value=101, step=1)
+    Pregnancies = st.number_input('Number of Pregnancies', min_value=0, max_value=20, value=1)
+    BloodPressure = st.number_input('Blood Pressure value', min_value=0, max_value=200, value=70)
+    Insulin = st.number_input('Insulin Level', min_value=0, max_value=800, value=100)
+    DiabetesPedigreeFunction = st.number_input('Diabetes Pedigree Function value', min_value=0.0, max_value=2.5, value=0.5, step=0.01)
 
 with col2:
-    Cough = st.selectbox('Cough', options=['No', 'Mild', 'Severe'], index=0)
-
-with col3:
-    Abdominal_Pain = st.selectbox('Abdominal Pain', options=['No', 'Yes'], index=0)
-
-with col4:
-    Nausea = st.selectbox('Nausea', options=['No', 'Yes'], index=0)
-
-with col5:
-    Vomiting = st.selectbox('Vomiting', options=['No', 'Yes'], index=0)
-
-with col1:
-    Body_Temperature_High = st.number_input('Body Temperature High (°F)', min_value=95, max_value=105, value=102, step=1)
-
-with col2:
-    Diarrhea = st.selectbox('Diarrhea', options=['No', 'Yes'], index=0)
-
-with col3:
-    Loss_of_Appetite = st.selectbox('Loss of Appetite', options=['No', 'Yes'], index=0)
-
-with col4:
-    Weakness = st.selectbox('Weakness', options=['No', 'Yes'], index=0)
-
-# Encode categorical inputs
-def encode_input(value):
-    if value == 'Yes':
-        return 1
-    elif value == 'No':
-        return 0
-    elif value == 'Mild':
-        return 0.5
-    elif value == 'Severe':
-        return 2
-    return value
+    Glucose = st.number_input('Glucose Level', min_value=0, max_value=200, value=100)
+    SkinThickness = st.number_input('Skin Thickness value', min_value=0, max_value=100, value=20)
+    BMI = st.number_input('BMI value', min_value=0.0, max_value=60.0, value=22.0, step=0.1)
+    Age = st.number_input('Age of the Person', min_value=1, max_value=120, value=30)
 
 # Prediction logic
-Typhoid_diagnosis = ''
-
-# Prediction button
-if st.button('Typhoid Disease Test Button'):
+if st.button('Get Diabetes Test Result 🧪'):
     if state == '':
         st.error("Please select your location.")
     else:
-        try:
-            prediction = Typhoid_project.predict([[
-                Fever, encode_input(Cough), encode_input(Abdominal_Pain),
-                encode_input(Nausea), encode_input(Vomiting), Body_Temperature_High,
-                encode_input(Diarrhea), encode_input(Loss_of_Appetite), encode_input(Weakness)
-            ]])
-            Typhoid_diagnosis = 'The person is affected with Typhoid' if prediction[0] == 1 else 'The person is not affected with Typhoid'
-        except ValueError as e:
-            st.error(f"Prediction error: {str(e)}")
-
-# Display diagnosis result
-st.success(Typhoid_diagnosis)
+        diab_prediction = diabetes_model.predict(
+            [[Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFunction, Age]]
+        )
+        if diab_prediction[0] == 1:
+            st.error('🚨 The person is diabetic.')
+        else:
+            st.success('✅ The person is not diabetic.')
