@@ -72,31 +72,31 @@ st.markdown(
 col1, col2, col3, col4, col5 = st.columns(5)
 
 with col1:
-    Fever = st.text_input('Fever', placeholder='e.g. 102°F')
+    Fever = st.number_input('Fever (°F)', min_value=95, max_value=105, value=101, step=1)
     
 with col2:
-    Cough = st.text_input('Cough', placeholder='e.g. Mild/Severe')
+    Cough = st.selectbox('Cough', options=['No', 'Mild', 'Severe'], index=0)
 
 with col3:
-    Abdominal_Pain = st.text_input('Abdominal Pain', placeholder='e.g. Yes/No')
+    Abdominal_Pain = st.selectbox('Abdominal Pain', options=['No', 'Yes'], index=0)
     
 with col4:
-    Nausea = st.text_input('Nausea', placeholder='e.g. Yes/No')
+    Nausea = st.selectbox('Nausea', options=['No', 'Yes'], index=0)
     
 with col5:
-    Vomiting = st.text_input('Vomiting', placeholder='e.g. Yes/No')
+    Vomiting = st.selectbox('Vomiting', options=['No', 'Yes'], index=0)
 
 with col1:
-    Body_Temperature_High = st.text_input('Body Temperature High', placeholder='e.g. 101°F')
+    Body_Temperature_High = st.number_input('Body Temperature High (°F)', min_value=95, max_value=105, value=102, step=1)
     
 with col2:
-    Diarrhea = st.text_input('Diarrhea', placeholder='e.g. Yes/No')
+    Diarrhea = st.selectbox('Diarrhea', options=['No', 'Yes'], index=0)
 
 with col3:
-    Loss_of_Appetite = st.text_input('Loss of Appetite', placeholder='e.g. Yes/No')
+    Loss_of_Appetite = st.selectbox('Loss of Appetite', options=['No', 'Yes'], index=0)
 
 with col4:
-    Weakness = st.text_input('Weakness', placeholder='e.g. Yes/No')
+    Weakness = st.selectbox('Weakness', options=['No', 'Yes'], index=0)
 
 # code for Prediction
 Typhoid_diagnosis = ''
