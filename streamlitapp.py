@@ -14,44 +14,32 @@ st.title('Typhoid Disease Prediction using ML')
 col1, col2, col3,col4, col5 = st.columns(5)
 
 with col1:
-    Age = st.text_input('Age')
+    Fever = st.text_input('Fever')
     
 with col2:
-    Gender = st.text_input('Gender')
+    Cough = st.text_input('Cough')
 
 with col3:
-    Access_to_Clean_Water = st.text_input('Access_to_Clean Water')
+    Abdominal_Pain = st.text_input('Abdominal_Pain')
     
 with col4:
-    Sanitation_Facilities = st.text_input('Sanitation_Facilities')
+    Nausea = st.text_input('Nausea')
     
 with col5:
-    Proximity_to_Water_Source = st.text_input('Proximity_to_Water_Source')
+    Vomiting = st.text_input('Vomiting')
 
 with col1:
-    Population_Density = st.text_input('Population_Density')
+    Body_Temperature_High = st.text_input('Body_Temperature_High')
     
 with col2:
-    Income_Level = st.text_input('Income_Level')
+    Diarrhea = st.text_input('Diarrhea')
 
 with col3:
-    Education_Level = st.text_input('Education_Level')
+    Loss_of_Appetite = st.text_input('Loss_of_Appetite')
 
 with col4:
-    Housing_Conditions = st.text_input('Housing_Conditions')
+    Weakness = st.text_input('Weakness')
 
-with col5:
-    Season = st.text_input('Season')
-    
-with col1:
-    Pre_existing_Conditions = st.text_input('Pre_existing_Conditions')
-
-with col2:
-    Vaccination_Status = st.text_input('Vaccination_Status')
-    
-with col3:
-    Access_to_Healthcare = st.text_input('Access_to_Healthcare')
-    
 # code for Prediction
 Typhoid_diagnosis = ''
 
