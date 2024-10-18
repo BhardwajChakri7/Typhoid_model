@@ -59,13 +59,13 @@ Typhoid_diagnosis = ''
 
 if st.button('Typhoid Disease Test Button'):
     try:
-        Typhoid_disease_prediction = Typhoid_project.predict([[Age,Gender,Access_to_Clean_Water,Sanitation_Facilities,Proximity_to_Water_Source,Population_Density,Income_Level,Education_Level,Housing_Conditions,Season,Pre_existing_Conditions,Vaccination_Status,Access_to_Healthcare]])
+        Typhoid_disease_prediction = Typhoid_project.predict([[Fever,Cough,Abdominal_Pain,Nausea,Vomiting,Body_Temperature_High,Diarrhea,Loss_of_Appetite,Weakness]])
     except ValueError as e:
         st.error(f"Prediction error: {str(e)}")
     
     if (Typhoid_disease_prediction[0] == 1):
-      Typhoid_diagnosis = 'The person is effected with Cholera'
+      Typhoid_diagnosis = 'The person is effected with Typhoid'
     else:
-      Typhoid_diagnosis = 'The person is not effected with Cholera'
+      Typhoid_diagnosis = 'The person is not effected with Typhoid'
     
 st.success(Typhoid_diagnosis)
